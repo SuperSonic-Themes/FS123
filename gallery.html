@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Include Owl Carousel CSS/JS files -->
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <section class="text-center py-8">
+        <h1 class="text-3xl font-bold">Our Projects</h1>
+        <div class="grid grid-cols-4 gap-4 mt-4">
+            <div class="clickable-element group" data-project="project1">
+                <div class="bg-white p-4 rounded-lg shadow-md group-hover:shadow-xl cursor-pointer">
+                    <p class="text-lg text-gray-800">Project 1</p>
+                </div>
+            </div>
+            <div class="clickable-element group" data-project="project2">
+                <div class="bg-white p-4 rounded-lg shadow-md group-hover:shadow-xl cursor-pointer">
+                    <p class="text-lg text-gray-800">Project 2</p>
+                </div>
+            </div>
+            <!-- Add more clickable elements as needed -->
+        </div>
+    </section>
+
+    <!-- Gallery Modal -->
+    <div class="gallery-modal fixed top-0 left-0 w-full h-full bg-white p-8 overflow-y-auto" style="display: none;">
+        <span class="close-button absolute top-2 right-4 text-2xl cursor-pointer bg-blue-600 border-4 border-black text-white rounded-full p-1 z-10"
+            onclick="closeGallery()">&times;</span>
+        <div class="owl-carousel owl-theme" id="gallery-carousel">
+            <!-- Carousel items will be added using JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Function to open the gallery
+        function openGallery(imageUrls) {
+            const galleryModal = document.querySelector('.gallery-modal');
+            const carousel = document.getElementById('gallery-carousel');
+            carousel.innerHTML = ''; // Clear existing items
+
+            imageUrls.forEach(imageUrl => {
+                const item = document.createElement('div');
+                item.innerHTML = `<img src="${imageUrl}" alt="Gallery Image" class="w-screen h-auto rounded-lg">`;
+                carousel.appendChild(item);
+            });
+
+            galleryModal.style.display = 'block';
+
+            // Initialize Owl Carousel for the gallery
+            $(carousel).owlCarousel({
+                items: 1,
+                loop: true,
+                nav: true,
+                dots: true,
+                touchDrag: true, // Enable touch drag
+                mouseDrag: true, // Enable mouse drag
+            });
+        }
+
+        // Function to close the gallery
+        function closeGallery() {
+            const galleryModal = document.querySelector('.gallery-modal');
+            galleryModal.style.display = 'none';
+        }
+
+        // Add click event listeners for clickable elements
+        document.addEventListener('DOMContentLoaded', function () {
+            const projectData = {
+                project1: ['./images/5197057.jpg', './images/discussing-blueprint.jpg', './images/8104.jpg'],
+                project2: ['./images/5197057.jpg', './images/discussing-blueprint.jpg', './images/8104.jpg'],
+                // Add more project data as needed
+            };
+
+            const elements = document.querySelectorAll('.clickable-element');
+
+            elements.forEach(element => {
+                element.addEventListener('click', () => {
+                    const projectKey = element.getAttribute('data-project');
+                    const imageUrls = projectData[projectKey];
+
+                    // Display the gallery modal
+                    openGallery(imageUrls);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
